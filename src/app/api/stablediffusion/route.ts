@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import Replicate from 'replicate';
 
 export const POST = async function(req: any, res: any) {
-  console.log(typeof req,typeof res,'types')
+  // console.log(typeof req,typeof res,'types')
   let req_val=await req.json();
   if (req.method !== 'POST') {
     res.status(405).json({ message: 'Method not allowed' });
@@ -30,7 +30,7 @@ export const POST = async function(req: any, res: any) {
         },
       },
     );
-    console.log(output,'ot')
+    // console.log(output,'ot')
     return NextResponse.json({output:output})
   
   } catch (error) {
