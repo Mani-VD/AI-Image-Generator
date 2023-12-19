@@ -17,7 +17,9 @@ function Home() {
   }
 
   else if (status === 'authenticated') {
-
+   fetch("/api/registeruser",{body:JSON.stringify({}),method:"POST"}).then(res =>{
+    console.log(res,'resss')
+   });
     const toDataURL = async (url: any) => {
       const blob = await fetch(url).then(res => res.blob());
       return URL.createObjectURL(blob);
@@ -99,7 +101,7 @@ function Home() {
           {imageUrl && !loading && (
 
             <div className="mt-12 flex justify-center">
-              <img src={imageUrl} alt="Generated image" className="rounded-xl shadow-lg" />
+              <Image src={imageUrl} alt="Generated image" className="rounded-xl shadow-lg" />
             </div>
 
 
