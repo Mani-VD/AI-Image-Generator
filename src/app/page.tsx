@@ -2,7 +2,7 @@
 "use client";
 import { useSession, signIn, signOut } from 'next-auth/react';
 import { useState } from 'react';
-import { Button, CircularProgress, Toolbar, Typography } from "@mui/material";
+import { Button, ButtonGroup, CircularProgress, FormControlLabel, Radio, RadioGroup, Toolbar, Typography } from "@mui/material";
 import Image from "next/image";
 import AppBar from '@mui/material/AppBar';
 function Home() {
@@ -11,15 +11,16 @@ function Home() {
   const [inputValue, setInputValue] = useState('');
   const [imageUrl, setImageUrl] = useState('');
   const [loading, setLoading] = useState(false);
-
+  const [RadioVal,setRadioVal]=useState({'value':"txt2img"})
   if (status === 'loading') {
-    return <CircularProgress style={{"height":"150px","width":"150px",marginTop:"20%",marginLeft:"45%"}} />
+    return <CircularProgress style={{ "height": "150px", "width": "150px", marginTop: "20%", marginLeft: "45%" }} />
   }
 
   else if (status === 'authenticated') {
-   fetch("/api/registeruser",{body:JSON.stringify({}),method:"POST"}).then(res =>{
-    console.log(res,'resss')
-   });
+    
+    fetch("/api/registeruser", { body: JSON.stringify({}), method: "POST" }).then(res => {
+      console.log(res, 'resss')
+    });
     const toDataURL = async (url: any) => {
       const blob = await fetch(url).then(res => res.blob());
       return URL.createObjectURL(blob);
@@ -54,25 +55,37 @@ function Home() {
       }
       setLoading(false);
     };
-    const src_meth=function(){
-      return data.user?.image+`?w=50` || ""
+    const src_meth = function () {
+      return data.user?.image + `?w=50` || ""
     }
     return (
       <div>
-         <AppBar position="fixed">
-            <Toolbar>
-             <Image alt="Your profile" style={{"borderRadius":"50%"}} width={50} height={50}   src={src_meth()}/>
-             <Typography variant="h6"  component="div" sx={{ flexGrow: 1,padding:"5px" }}>{data.user?.name}</Typography>
-              <Typography  variant="h5" component="div" sx={{ flexGrow: 1 }}>
-                Text to image converter
-              </Typography>
-              <Button color="inherit" onClick={() => signOut()}>Logout</Button>
-            </Toolbar>
-          </AppBar>
-      <div className="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
-        
-         
+        <AppBar position="sticky">
+          <Toolbar>
+            <Image alt="Your profile" style={{ "borderRadius": "50%" }} width={50} height={50} src={src_meth()} />
+            <Typography variant="h6" component="div" sx={{ flexGrow: 1, padding: "5px" }}>{data.user?.name}</Typography>
+            <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>
+              Text to image converter
+            </Typography>
+            <Button color="inherit" onClick={() => signOut()}>Logout</Button>
+          </Toolbar>
+        </AppBar>
+        <RadioGroup
+        row
+          aria-labelledby="demo-controlled-radio-buttons-group"
+          name="controlled-radio-buttons-group"
+          value={RadioVal.value}
+          onChange={(ev)=>{setRadioVal({value:ev.target.value})}}
+          
+        >
+          <FormControlLabel value="txt2img" control={<Radio />} label="Text to Image" />
+          <FormControlLabel value="img2txt" control={<Radio />} label="Image to Text" />
+        </RadioGroup>
+        <div className="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
+
+
           <div className="relative py-3 sm:max-w-xl sm:mx-auto">
+
             <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 via-green-500 to-cyan-400 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
             <div className="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20">
               <form onSubmit={handleSubmit} className="max-w-md mx-auto space-y-4">
@@ -121,7 +134,7 @@ function Home() {
             }
           }
         `}</style>
-      </div>
+        </div>
       </div>
     );
   }
