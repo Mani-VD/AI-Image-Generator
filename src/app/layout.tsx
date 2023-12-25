@@ -4,7 +4,7 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import { SessionProvider } from 'next-auth/react'
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
-
+import  "./app.scss";
 const inter = Inter({ subsets: ['latin'] })
 const metadata: Metadata = {
   title: 'Create Next App',
