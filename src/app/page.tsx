@@ -260,8 +260,10 @@ function Home() {
             <div className='lg-una' onClick={() => signIn('google')}>
               <label className="sign" htmlFor="Sign in">Sign in with:</label>
               <GoogleButton
-                className="btn_ggl" > //Optionally, you can customize the button appearance and behavior
+                className="btn_ggl" > 
+                
                 Sign in With Google</GoogleButton>
+                {/* Optionally, you can customize the button appearance and behavior */}
             </div>
           </form>
         </div>
