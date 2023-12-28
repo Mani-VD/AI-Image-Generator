@@ -5,8 +5,11 @@ import { useState } from 'react';
 import { Button, ButtonGroup, CircularProgress, FormControlLabel, Input, Radio, RadioGroup, Toolbar, Typography } from "@mui/material";
 import Image from "next/image";
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import SendIcon from '@mui/icons-material/Send';
 import AppBar from '@mui/material/AppBar';
-
+import GoogleButton from 'react-google-button';
+import LoadingButton from '@mui/lab/LoadingButton';
+import SaveIcon from '@mui/icons-material/Save';
 function Home() {
   const { data, status } = useSession();
   console.log(data, status, 'auth vals')
@@ -76,6 +79,10 @@ function Home() {
     const src_meth = function () {
       return data.user?.image + `?w=50` || ""
     }
+    const handleError = () => {
+      // Handle login errors here
+      console.log('Google login failed');
+    };
     return (
       <div>
         <AppBar position="sticky">
@@ -87,10 +94,10 @@ function Home() {
             </Typography>
             <Button color="inherit" onClick={() => signOut()}>Logout</Button>
           </Toolbar>
-          <Toolbar style={{"backgroundColor":"rgb(220,220,220)",color:'black'}}>
+          <Toolbar style={{ "backgroundColor": "rgb(220,220,220)", color: 'black' }}>
             <RadioGroup
               row
-              
+
               aria-labelledby="demo-controlled-radio-buttons-group"
               name="controlled-radio-buttons-group"
               value={operationSelection.value}
@@ -210,13 +217,32 @@ function Home() {
     );
   }
 
+
   else if (status === "unauthenticated") {
     return (
+
+
       <div>
-        <Button onClick={() => signIn('google')} variant="contained">Google login</Button>
-        {/* <button onClick={() => signIn('google')}>sign in with gooogle</button> */}
+        <div style={{marginTop:"40vh"}}>
+          <form >
+            <div className='lg-una' onClick={() => signIn('google')}>
+              <label className="sign" htmlFor="Sign in">Sign in with:</label>
+              <GoogleButton
+                className="btn_ggl" > //Optionally, you can customize the button appearance and behavior
+                Sign in With Google</GoogleButton>
+            </div>
+          </form>
+        </div>
+
       </div>
+
+      // <div className="g_id_signin">
+      //   <Button onClick={() => signIn('google')} variant="contained" >Sign in with Google</Button>
+      //   {/* startIcon={<SendIcon />} */}
+      //   {/* <button onClick={() => signIn('google')}>sign in with gooogle</button> */}
+      // </div>
     );
+
   }
 
 

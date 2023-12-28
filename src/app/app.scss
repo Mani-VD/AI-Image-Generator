@@ -3,3 +3,34 @@
     color:white;
     
 }
+
+.lg-una{
+    position: relative;
+    margin-left: 40%;
+    flex-direction: row;
+    margin-top: 10%;
+    
+    .sign{
+        font-size: 35px;
+        margin-left: 0.5cm;
+        font-family:sans-serif;
+        font-weight: bolder;
+        color: navy;
+
+    }
+    
+    .btn_ggl{
+        display: block;
+        width: 100%;
+        border: none;
+        cursor: pointer;
+        size: 20em;
+    }
+}
+
+
+@media (prefers-reduced-motion: no-preference) {
+    .lg-una{
+       animation: lg-una-spin infinite 20s linear;;
+    }
+  }
