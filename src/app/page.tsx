@@ -6,10 +6,11 @@ import { Button, ButtonGroup, CircularProgress, FormControlLabel, Input, Radio, 
 import Image from "next/image";
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import AppBar from '@mui/material/AppBar';
-
+import { useQRCode } from 'next-qrcode';
 function Home() {
   const { data, status } = useSession();
-  console.log(data, status, 'auth vals')
+  const { Canvas } = useQRCode();
+  // console.log(data, status, 'auth vals')
   const [inputValue, setInputValue] = useState('');
   const [outputValue, setoutputValue] = useState('');
   const [loading, setLoading] = useState(false);
@@ -21,7 +22,7 @@ function Home() {
   else if (status === 'authenticated') {
 
     fetch("/api/registeruser", { body: JSON.stringify({}), method: "POST" }).then(res => {
-      console.log(res, 'resss')
+      // console.log(res, 'resss')
     });
     const toDataURL = async (url: any) => {
       const blob = await fetch(url).then(res => res.blob());
@@ -66,10 +67,10 @@ function Home() {
       if (response.ok) {
 
         const data = await response.json();
-        console.log(data, "dat")
+        // console.log(data, "dat")
         setoutputValue((operation === "txt2img") ? data.output[0] : (operation === "img2txt") ? data.output : "");
       } else {
-        console.error('Error:', response.statusText);
+        // console.error('Error:', response.statusText);
       }
       setLoading(false);
     };
@@ -87,10 +88,10 @@ function Home() {
             </Typography>
             <Button color="inherit" onClick={() => signOut()}>Logout</Button>
           </Toolbar>
-          <Toolbar style={{"backgroundColor":"rgb(220,220,220)",color:'black'}}>
+          <Toolbar style={{ "backgroundColor": "rgb(220,220,220)", color: 'black' }}>
             <RadioGroup
               row
-              
+
               aria-labelledby="demo-controlled-radio-buttons-group"
               name="controlled-radio-buttons-group"
               value={operationSelection.value}
@@ -132,8 +133,23 @@ function Home() {
               </div>
               {outputValue && !loading && (
 
-                <div className="mt-12 flex justify-center">
-                  <Image src={outputValue} width={200} height={200} alt="Generated image" className="rounded-xl shadow-lg" />
+                <div style={{display:"flex",flexDirection:"column",alignItems: "center",
+                justifyContent: "center"}} className="mt-12">
+                  <Image src={outputValue} width={200} height={200} alt="Generated image" className="rounded-xl shadow-lg" /><br/>
+                  <span>Scan the QR Code to download the picture on your mobile</span>
+                  <Canvas
+                    text={outputValue}
+                    options={{
+                      errorCorrectionLevel: 'M',
+                      margin: 3,
+                      scale: 4,
+                      width: 200,
+                      color: {
+                        dark: '#030a00',
+                        light: '#ffffff',
+                      },
+                    }}
+                  />
                 </div>
 
 
@@ -176,8 +192,23 @@ function Home() {
                 </div>
                 {outputValue.length > 0 && !loading && (
 
-                  <div className="mt-12 flex justify-center">
-                    <Typography style={{ "fontWeight": "bolder", "color": "green", fontSize: "20px", "fontStyle": "italic" }} className="rounded-xl shadow-lg">{outputValue}<ContentCopyIcon className='copyIcon' onClick={() => { navigator.clipboard.writeText(outputValue) }} style={{ "cursor": "pointer", "fontSize": "35px", "paddingLeft": "10px" }}></ContentCopyIcon></Typography>
+                  <div style={{display:"flex",flexDirection:"column",alignItems: "center",
+                  justifyContent: "center"}} className="mt-12">
+                    <Typography style={{ "fontWeight": "bolder", "color": "green", fontSize: "20px", "fontStyle": "italic" }} className="rounded-xl shadow-lg">{outputValue}<ContentCopyIcon className='copyIcon' onClick={() => { navigator.clipboard.writeText(outputValue) }} style={{ "cursor": "pointer", "fontSize": "35px", "paddingLeft": "10px" }}></ContentCopyIcon></Typography><br/>
+                    Scan the QR code the get the text to your phone.
+                    <Canvas
+                    text={outputValue}
+                    options={{
+                      errorCorrectionLevel: 'M',
+                      margin: 3,
+                      scale: 4,
+                      width: 200,
+                      color: {
+                        dark: '#030a00',
+                        light: '#ffffff',
+                      },
+                    }}
+                  />
                   </div>
 
 
