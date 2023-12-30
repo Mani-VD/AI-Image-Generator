@@ -19,14 +19,15 @@ export default function RootLayout({
   params: any
 }) {
   return (
-
     <html lang="en">
       <body style={{position:"absolute",top:0,bottom:0,right:0,left:0}}>
+        <div style={{height:"60vh",width:"100vw","backgroundImage":'url("scattered-forcefields.svg")',"backgroundRepeat":"no-repeat","backgroundSize":"cover"}}>
         <SessionProvider session={session}>
           <AppRouterCacheProvider>
             {children}
           </AppRouterCacheProvider>
         </SessionProvider>
+        </div>
       </body>
     </html>
 
