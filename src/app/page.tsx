@@ -2,15 +2,13 @@
 "use client";
 import { useSession, signIn, signOut } from 'next-auth/react';
 import { useState } from 'react';
-import { Button, ButtonGroup, CircularProgress, FormControlLabel, Input, Radio, RadioGroup, Toolbar, Typography } from "@mui/material";
+import { Button, CircularProgress, FormControlLabel, Input, Radio, RadioGroup, Toolbar, Typography } from "@mui/material";
 import Image from "next/image";
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import SendIcon from '@mui/icons-material/Send';
 import AppBar from '@mui/material/AppBar';
 import GoogleButton from 'react-google-button';
-import LoadingButton from '@mui/lab/LoadingButton';
-import SaveIcon from '@mui/icons-material/Save';
 import { useQRCode } from 'next-qrcode';
+import Dropzone from "react-dropzone";
 function Home() {
   const { data, status } = useSession();
   const { Canvas } = useQRCode();
@@ -41,7 +39,7 @@ function Home() {
       document.body.removeChild(a);
     }
 
-    const getBase64 = (file: File) => new Promise((resolve, reject) => {
+    const getBase64 = (file: any) => new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = () => {
@@ -83,7 +81,7 @@ function Home() {
     }
     const handleError = () => {
       // Handle login errors here
-      console.log('Google login failed');
+      // console.log('Google login failed');
     };
     return (
       <div>
@@ -165,11 +163,11 @@ function Home() {
             </>) :
             (operationSelection.value === "img2txt") ? (
               <>
-                <div className="relative py-3 sm:max-w-xl sm:mx-auto">
+                <div className="relative py-3 sm:max-w-xl sm:mx-auto" onDragOver={(e)=>{e.preventDefault();}} onDrop={(ev) => { ev.preventDefault();getBase64(ev.dataTransfer.items[0].getAsFile()); }}>
 
                   <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 via-green-500 to-cyan-400 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
                   <div className="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20">
-                    <form onSubmit={(ev) => { handleSubmit(ev, 'img2txt') }} className="max-w-md mx-auto space-y-4">
+                    <form  onSubmit={(ev) => { handleSubmit(ev, 'img2txt') }} className="max-w-md mx-auto space-y-4">
                       {/* <input
                         type="text"
                         value={inputValue}
