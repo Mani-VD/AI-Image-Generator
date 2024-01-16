@@ -15,4 +15,5 @@ model Users {
   name String
   mail String
   image String
+  password String?
 }

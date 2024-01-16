@@ -5,6 +5,8 @@ import './globals.css'
 import { SessionProvider } from 'next-auth/react'
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
 import  "./app.scss";
+
+
 const inter = Inter({ subsets: ['latin'] })
 const metadata: Metadata = {
   title: 'Create Next App',
@@ -21,7 +23,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body style={{position:"absolute",top:0,bottom:0,right:0,left:0}}>
-        <div style={{height:"60vh",width:"100vw","backgroundImage":'url("scattered-forcefields.svg")',"backgroundRepeat":"no-repeat","backgroundSize":"cover"}}>
+        
+        <div style={{height:"60vh",width:"100vw","backgroundImage":'url("/scattered-forcefields.svg")',"backgroundRepeat":"no-repeat","backgroundSize":"cover"}}>
         <SessionProvider session={session}>
           <AppRouterCacheProvider>
             {children}

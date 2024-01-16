@@ -1,22 +1,9 @@
 import { NextResponse } from 'next/server';
-import { PrismaClient } from "@prisma/client";
-import { AuthOptions, getServerSession } from 'next-auth';
-import GoogleProvider from 'next-auth/providers/google';
-const prisma = new PrismaClient();// need to change location
-export const POST = async function (req: any, res: any) {
-    const authOptions: AuthOptions = {
-        secret: process.env.AUTH_SECRET,
-        providers: [
-            GoogleProvider({
-                clientId: process.env.GOOGLE_CLIENT || "",
-                clientSecret: process.env.GOOGLE_SECRET || "",
-            }),
-        ],
-        session: {
-            strategy: 'jwt'
-        },
-    };
-    
+import {  getServerSession } from 'next-auth';
+import {prisma} from '../../global_variables';
+import { authOptions } from '../../global_variables';
+// const prisma = new PrismaClient();// need to change location
+export const POST = async function (req: any, res: any) {    
     try {
         const data = await getServerSession(authOptions);
         let email=data?.user?.email||"";
