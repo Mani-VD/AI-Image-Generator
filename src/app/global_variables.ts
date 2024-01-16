@@ -26,12 +26,10 @@ export const authOptions: AuthOptions = {
           password: { label: 'Password', type: 'password' }
         },
         async authorize(credentials, req) {
-          console.log(credentials,"creeeeee")
           const payload = {
             email: credentials!.email,
             password: credentials!.password,
           };
-          console.log(payload,"load")
           const res = await fetch(`${process.env.NEXTAUTH_URL}/api/login`, {
             method: 'POST',
             body: JSON.stringify(payload)
@@ -39,7 +37,6 @@ export const authOptions: AuthOptions = {
             return loggin
           },(error)=>{return error});
           const out=await res.json();
-          console.log(out,'outtt')
           if(out.login!=false){
            
             return {id:`${out.login.id}`,name:out.login.name,email:out.login.mail,image:out.login.image}

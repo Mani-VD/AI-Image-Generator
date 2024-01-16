@@ -1,105 +1,3 @@
-// "use client"
-// import * as React from 'react';
-// import Box from '@mui/material/Box';
-// import Drawer from '@mui/material/Drawer';
-// import Button from '@mui/material/Button';
-// import List from '@mui/material/List';
-// import Divider from '@mui/material/Divider';
-// import ListItem from '@mui/material/ListItem';
-// import ListItemButton from '@mui/material/ListItemButton';
-// import ListItemIcon from '@mui/material/ListItemIcon';
-// import ListItemText from '@mui/material/ListItemText';
-// import InboxIcon from '@mui/icons-material/MoveToInbox';
-// import MailIcon from '@mui/icons-material/Mail';
-// import { AppBar, Toolbar } from '@mui/material';
-
-// type Anchor = 'top' | 'left' | 'bottom' | 'right';
-
-// export default function TemporaryDrawer() {
-//   const [state, setState] = React.useState({
-//     top: false,
-//     left: false,
-//     bottom: false,
-//     right: false,
-//   });
-
-//   const toggleDrawer =
-//     (anchor: Anchor, open: boolean) =>
-//     (event: React.KeyboardEvent | React.MouseEvent) => {
-//       if (
-//         event.type === 'keydown' &&
-//         ((event as React.KeyboardEvent).key === 'Tab' ||
-//           (event as React.KeyboardEvent).key === 'Shift')
-//       ) {
-//         return;
-//       }
-
-//       setState({ left:open,right:false,top:false,bottom:false });
-//     };
-
-//   const list = (anchor: Anchor) => (
-//     <Box
-//       sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 250 }}
-//       role="presentation"
-//       onClick={toggleDrawer(anchor, false)}
-//       onKeyDown={toggleDrawer(anchor, false)}
-//     >
-//       <List>
-//         {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-//           <ListItem key={text} disablePadding>
-//             <ListItemButton>
-//               <ListItemIcon>
-//                 {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-//               </ListItemIcon>
-//               <ListItemText primary={text} />
-//             </ListItemButton>
-//           </ListItem>
-//         ))}
-//       </List>
-//       <Divider />
-//       <List>
-//         {['All mail', 'Trash', 'Spam'].map((text, index) => (
-//           <ListItem key={text} disablePadding>
-//             <ListItemButton>
-//               <ListItemIcon>
-//                 {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-//               </ListItemIcon>
-//               <ListItemText primary={text} />
-//             </ListItemButton>
-//           </ListItem>
-//         ))}
-//       </List>
-//     </Box>
-//   );
-
-//   return (
-//     <div>
-//       <AppBar position='sticky'>
-//         <Toolbar>
-//           HIi
-//         </Toolbar>
-//       </AppBar>
-//       {(['left', 'right', 'top', 'bottom'] as const).map((anchor) => (
-//         <>
-//         <Button onClick={toggleDrawer(anchor, true)}>{anchor}</Button>
-//         <React.Fragment key={anchor}>
-
-//           <Drawer
-//             anchor={anchor}
-//             open={state[anchor]}
-//             onClose={toggleDrawer(anchor, false)}
-//           >
-//             {list(anchor)}
-//           </Drawer>
-//         </React.Fragment>
-//         </>
-//       ))}
-//     </div>
-//   );
-// }
-
-
-
 
 "use client";
 import { useSession, signIn, signOut, getSession } from 'next-auth/react';
@@ -144,7 +42,7 @@ function Home() {
 
   if (status === 'authenticated') {
 
-    fetch("/api/registeruser", { body: JSON.stringify({}), method: "POST" }).then(res => {
+    fetch("/api/registeruser", { body: JSON.stringify({"add_user":false}), method: "POST" }).then(res => {
       // console.log(res, 'resss')
     });
     const toDataURL = async (url: any) => {
@@ -218,7 +116,7 @@ function Home() {
     }
 
     const menuList = [
-      { text: "Add User", icon: "account", action: (ev: any) => { router.push("/signup"); toggleDrawer(ev, false) } },
+      { text: "Add User", icon: "account", action: (ev: any) => { router.push("/adduser"); toggleDrawer(ev, false) } },
       { text: "Logout", icon: "logout", action: (ev: any) => { signOut(); toggleDrawer(ev, false) } }
     ]
 
@@ -457,7 +355,7 @@ function Home() {
           <div className='text-center rounded' style={{ "color": "white",backgroundColor:"red",width:"80%",marginLeft:"10%" }} onClick={() => signIn('google')}>
               <span> <GoogleIcon  /> Sign in With Google</span>
             </div><br/>
-            <button className="bg-blue-500 hover:bg-blue-700 ml-8 text-white font-bold py-2 px-4 w-4/5 rounded" type='button' onClick={() => { router.push("/signup") }}>Sign Up</button>
+            <button className="bg-blue-500 hover:bg-blue-700 ml-8 text-white font-bold py-2 px-4 w-4/5 rounded" type='button' onClick={() => { router.push("/adduser") }}>Sign Up</button>
         </div>
         
       </div>
